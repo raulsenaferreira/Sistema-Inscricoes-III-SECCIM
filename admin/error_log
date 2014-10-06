@@ -1,0 +1,5 @@
+[28-Sep-2012 16:51:50] PHP Warning:  mysql_fetch_row(): supplied argument is not a valid MySQL result resource in /home/raulferr/public_html/teste/library/class/Database.php on line 39
+[28-Sep-2012 16:52:22] PHP Warning:  mysql_fetch_row(): supplied argument is not a valid MySQL result resource in /home/raulferr/public_html/teste/library/class/Database.php on line 39
+[28-Sep-2012 16:56:59] PHP Warning:  mysql_fetch_row(): supplied argument is not a valid MySQL result resource in /home/raulferr/public_html/teste/library/class/Database.php on line 39
+[28-Sep-2012 16:57:14] PHP Warning:  mysql_fetch_row(): supplied argument is not a valid MySQL result resource in /home/raulferr/public_html/teste/library/class/Database.php on line 39
+[28-Sep-2012 16:57:52] PHP Warning:  mysql_fetch_row(): supplied argument is not a valid MySQL result resource in /home/raulferr/public_html/teste/library/class/Database.php on line 39

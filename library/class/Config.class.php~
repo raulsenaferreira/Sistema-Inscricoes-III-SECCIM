@@ -1,0 +1,16 @@
+<?php
+class Config
+{
+ 
+ const UPLOAD 			= "/home/rodrigo/dev/spcrj/public/img/";
+ const IMGADMIN			= "../public/img/news/";
+ const IMGSITE			= "public/img/news/";
+ 
+ const DATABASE  		= 'spcrj';
+ const SERVER 			= 'localhost';
+ const USERROOT 		= 'root';
+ const PASSWORD 		= '123456';
+ 	
+}// end class Config
+
+?>

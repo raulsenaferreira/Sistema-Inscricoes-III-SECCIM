@@ -1,0 +1,116 @@
+<?php
+class Tipo
+{
+ 
+	protected $id;
+	protected $titulo;
+	protected $descricao;
+	protected $finalidade;
+	protected $datahora;
+	
+	const AGENDA = 1;
+	const ATIVIDADE = 2;
+	
+	public function __construct($id=NULL) 
+	{
+		if($id!=NULL){
+			$this->carregarPorId($id);
+		}	
+	}
+	
+	#-------------------------------------#
+	# GET
+	#-------------------------------------#
+	
+	public function getId(){
+		return $this->id;
+	}
+	
+	public function getTitulo(){
+		return $this->titulo;
+	}
+	
+	public function getDescricao(){
+		return $this->descricao;
+	}
+	
+	public function getFinalidade(){
+		return $this->finalidade;
+	}
+	
+	public function getDatahora(){
+		return $this->datahora;
+	}
+	
+	public static function getTipos($paginate, $order, $finalidade = NULL){
+		$dao = Dao::factory(__CLASS__);
+		return self::makeObjects($dao->getTipos($paginate, $order, $finalidade));
+	}
+	
+	public static function getLastId(){
+		$dao = Dao::factory(__CLASS__);
+		return $dao->getLastId();
+	}
+	
+	#-------------------------------------#
+	# METHODS
+	#-------------------------------------#
+	
+	public function cadastrar($dados) 
+	{
+		$dao = Dao::factory(__CLASS__);
+		if($dao->cadastrar($dados)){
+			return true;
+		}
+		return false;
+	}
+	
+	public function editar($dados) 
+	{
+		$dao = Dao::factory(__CLASS__);
+		if($dao->editar($dados,$this->id)){
+			return true;
+		}
+		return false;
+	}
+	
+	public function deletar() 
+	{
+		$dao = Dao::factory(__CLASS__);
+		if($dao->deletar($this->id)){
+			return true;
+		}
+		return false;
+	}
+	
+	public function carregarPorId($id) 
+	{
+		$dao = Dao::factory(__CLASS__);
+		$array = $dao->carregarPorId($id);
+		if($array){
+	 
+			$this->id  		= $array['id'];  		
+			$this->titulo 		= $array['titulo'];
+			$this->descricao 	= $array['descricao'];	
+			$this->finalidade	= $array['finalidade'];
+			$this->datahora 	= $array['datahora']; 	
+		 
+			return true;
+		}
+		return false;
+	}
+	
+	public static function makeObjects($vetor){
+	
+		if(is_array($vetor) and count($vetor['registros'])>0){
+			foreach($vetor['registros'] as $v){
+				$object = new self($v[0]);
+				$objectArray[] = $object;
+			}
+		}
+		return $objectArray;
+	}
+ 	  	
+}// end class
+
+?>

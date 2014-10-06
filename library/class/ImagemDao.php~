@@ -1,0 +1,78 @@
+<?php
+class ImagemDao Dao{
+
+ public function __construct(){
+	
+	parent::__construct();	
+	$this->table		= "imagem";
+ {
+
+ public function cadastrar($dados) 
+ {
+	 $sql = "INSERT INTO {$this->table} (id_produto,nome,ordem) values ('".$dados['id_produto']."','".$dados['nome']."','".$dados['ordem']."')";
+	 $conn = new Database();
+	 return $conn->execute($sql);
+ }
+ 
+ public function editar($dados,$id) 
+ {
+	 $sql = "UPDATE {$this->table} set nome = '".$dados['nome']."', ordem = '".$dados['ordem']."' WHERE id = {$id}";
+	 $conn = new Database();
+	 return $conn->execute($sql);
+ }
+ 
+ public function apagar($id) 
+ {
+	 $sql = "DELETE FROM {$this->table} WHERE id = {$id}";
+	 $conn = new Database();
+	 return $conn->execute($sql);
+ }
+ 
+ public function getImagesByGallery($id_galeria) 
+ {
+	 $sql = "SELECT * FROM {$this->table} WHERE id_galeria = ".$id_produto." order by ordem,id";
+	 $conn = new Database();
+	 $result =  $conn->execute($sql);
+	 
+	 while($row = $conn->fetch_assoc($result)){
+		$vetor[] = $row;
+	 }
+	 return $vetor;
+ }
+ 
+ public function getIconByGallery($id_galeria) 
+ {
+	 $sql = "SELECT id FROM {$this->table} WHERE id_galeria = ".$id_produto." order by id asc limit 1";
+	 $conn = new Database();
+	 $result =  $conn->execute($sql);
+	 
+	 $row = $conn->fetch_assoc($result);
+	
+	 return $row['id'];
+ }
+ 
+ public function getLastId() 
+ {
+	 $sql = "SELECT id FROM {$this->table} ORDER BY id desc";
+	 $conn = new Database();
+	 $result = $conn->execute($sql);
+	 
+	 $valor = $conn->fetch_assoc($result);
+	 
+	 return $valor['id'];
+ }
+ 
+ public function carregarPorId($id) 
+ {
+	 $sql = "SELECT * FROM {$this->table} WHERE id = ".$id;
+	 $conn = new Database();
+	 $result = $conn->execute($sql);
+	 
+	 $valor = $conn->fetch_assoc($result);
+	 
+	 return $valor;
+ }
+ 	  	
+}// end class ProdutoDao
+
+?>

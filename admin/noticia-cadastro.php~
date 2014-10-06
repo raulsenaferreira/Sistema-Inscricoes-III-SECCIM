@@ -1,0 +1,234 @@
+<?php session_start(); ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<script type="text/javascript" src="tinymce/tiny_mce/tiny_mce.js"></script>
+	<script type="text/javascript">
+	tinyMCE.init({
+			mode : "textareas",
+			theme : "advanced",
+			plugins : "autolink,lists,spellchecker,pagebreak,style,layer,table,save,advhr,advimage,advlink,emotions,iespell,inlinepopups,insertdatetime,preview,media,searchreplace,print,contextmenu,paste,directionality,fullscreen,noneditable,visualchars,nonbreaking,xhtmlxtras,template",
+			
+			// Theme options
+			theme_advanced_buttons1 : "save,newdocument,|,bold,italic,underline,strikethrough,|,justifyleft,justifycenter,justifyright,justifyfull,|,styleselect,formatselect,fontselect,fontsizeselect",
+			theme_advanced_buttons2 : "cut,copy,paste,pastetext,pasteword,|,search,replace,|,bullist,numlist,|,outdent,indent,blockquote,|,undo,redo,|,link,unlink,anchor,image,cleanup,help,code,|,insertdate,inserttime,preview,|,forecolor,backcolor",
+			theme_advanced_buttons3 : "tablecontrols,|,hr,removeformat,visualaid,|,sub,sup,|,charmap,emotions,iespell,media,advhr,|,print,|,ltr,rtl,|,fullscreen",
+			theme_advanced_toolbar_location : "top",
+			theme_advanced_toolbar_align : "left",
+			theme_advanced_resizing : true,
+		
+			// Skin options
+			skin : "o2k7",
+			skin_variant : "silver",
+		
+			// Example content CSS (should be your site CSS)
+			content_css : "css/example.css",
+		
+			// Drop lists for link/image/media/template dialogs
+			template_external_list_url : "js/template_list.js",
+			external_link_list_url : "js/link_list.js",
+			external_image_list_url : "js/image_list.js",
+			media_external_list_url : "js/media_list.js",
+		
+			// Replace values for the template plugin
+			template_replace_values : {
+				username : "Some User",
+				staffid : "991234"
+			}
+
+	});
+	</script>
+	<?php include('inc.head.php'); ?>
+</head>
+<body>
+<?php include('util.php');
+if($_SESSION['jug-login']['on'] != 'true'){
+	redirect('index.php', 0);
+	exit();
+}
+?>
+<?php
+$page = "noticia";
+include('inc.header.php'); 
+include('inc.autoload.php'); 
+?>
+ 
+<!-- start content-outer -->
+<div id="content-outer">
+<!-- start content -->
+<div id="content">
+
+
+<div id="page-heading"><h1>Adicionar Notícia</h1></div>
+
+
+<table border="0" width="100%" cellpadding="0" cellspacing="0" id="content-table">
+<tr>
+	<th rowspan="3" class="sized"><img src="images/shared/side_shadowleft.jpg" width="20" height="300" alt="" /></th>
+	<th class="topleft"></th>
+	<td id="tbl-border-top">&nbsp;</td>
+	<th class="topright"></th>
+	<th rowspan="3" class="sized"><img src="images/shared/side_shadowright.jpg" width="20" height="300" alt="" /></th>
+</tr>
+<tr>
+	<td id="tbl-border-left"></td>
+	<td>
+	<!--  start content-table-inner -->
+	<div id="content-table-inner">
+	
+	<table border="0" width="100%" cellpadding="0" cellspacing="0">
+	<tr valign="top">
+	<td>
+	
+		<?php
+		
+		if($_POST['send'] == 'sended'){
+			
+			$datapub = explode("/", $_POST['datapub']);
+			
+			$dados['nome']  	= $_POST['nome'];
+			$dados['texto']		= $_POST['texto'];
+			$dados['datapub']	= $datapub[2].$datapub[1].$datapub[0];
+			$dados['imagem'] 	= $_FILES['imagem'];
+			//$dados['thumb'] 	= $_FILES['thumb'];
+			
+			$artigo = new Noticia();
+			
+			if($artigo->cadastrar($dados)){
+				?>
+				
+				<!--  start message-green -->
+				<div id="message-green">
+				<table border="0" width="100%" cellpadding="0" cellspacing="0">
+				<tr>
+					<td class="green-left">Item adicionado com sucesso.</td>
+					<td class="green-right"><a class="close-green"><img src="images/table/icon_close_green.gif"   alt="" /></a></td>
+				</tr>
+				</table>
+				</div>
+				<!--  end message-green -->
+				
+				<?php
+				
+				$lastId = Noticia::getLastId();
+				
+				redirect('noticia-edicao.php?id='.$lastId, 1);
+				exit();
+				
+			} else {
+				?>
+				
+				<!--  start message-red -->
+				<div id="message-red">
+				<table border="0" width="100%" cellpadding="0" cellspacing="0">
+				<tr>
+					<td class="red-left">Erro inesperado.</td>
+					<td class="red-right"><a class="close-red"><img src="images/table/icon_close_red.gif"  alt="" /></a></td>
+				</tr>
+				</table>
+				</div>
+				<!--  end message-red -->
+				
+				<?php
+			}
+			
+		}
+		
+		?>
+	
+	<!-- start id-form -->
+	<form action="noticia-cadastro.php" method="post" enctype="multipart/form-data">
+		<table border="0" cellpadding="0" cellspacing="0"  id="id-form">
+		<tr>
+			<th valign="top">Título:</th>
+			<td><input type="text" class="inp-form" name="nome" value="<?=$_POST['nome']?>"/></td>
+			<td></td>
+		</tr>
+		<tr>
+			<th valign="top">Texto:</th>
+			<td colspan="2"><textarea name="texto" style="width:100%;height:350px;"><?=$_POST['texto']?></textarea></td>
+		</tr>
+		<tr>
+			<th valign="top">Data de Publicação:</th>
+			<td><input type="text" class="inp-form" name="datapub" value="<?=$_POST['datapub']?>" maxlength="10"/></td>
+			<td></td>
+		</tr>
+		<tr>
+			<th>Imagem:</th>
+			<td><input type="file" class="file_1" name="imagem"/></td>
+			<td>
+				<div class="bubble-left" style="margin-left:90px;"></div>
+				<div class="bubble-inner">JPEG, GIF, PNG 5MB max</div>
+				<div class="bubble-right"></div>
+			</td>
+		</tr>
+		<? /*<tr>
+			<th>Thumb:</th>
+			<td> <input type="file" class="file_1" name="thumb"/></td>
+			<td>
+				<div class="bubble-left" style="margin-left:90px;"></div>
+				<div class="bubble-inner">JPEG, GIF, PNG 5MB max</div>
+				<div class="bubble-right"></div>
+			</td>
+		</tr> */ ?>
+		<tr>
+			<th>&nbsp;</th>
+			<td valign="top">
+				<input type="hidden" value="sended" name="send" />
+				<input type="submit" value="" class="form-submit" />
+			</td>
+			<td></td>
+		</tr>
+		</table>
+	</form>
+	<!-- end id-form  -->
+
+	</td>
+	<td>
+</td>
+</tr>
+<tr>
+<td><img src="images/shared/blank.gif" width="695" height="1" alt="blank" /></td>
+<td></td>
+</tr>
+</table>
+ 
+<div class="clear"></div>
+ 
+
+</div>
+<!--  end content-table-inner  -->
+</td>
+<td id="tbl-border-right"></td>
+</tr>
+<tr>
+	<th class="sized bottomleft"></th>
+	<td id="tbl-border-bottom">&nbsp;</td>
+	<th class="sized bottomright"></th>
+</tr>
+</table>
+
+<div class="clear">&nbsp;</div>
+
+</div>
+<!--  end content -->
+<div class="clear">&nbsp;</div>
+</div>
+<!--  end content-outer -->
+
+<div class="clear">&nbsp;</div>
+ 
+<script type="text/javascript">
+	$('input[name=datapub]').keypress(function(e){
+		if ((e.which < 48 || e.which > 57) && e.which != 8 && e.which != 0)
+			return false;
+		v = $(this).val();
+		v=v.replace(/\D/g,"");
+		v=v.replace(/^(\d{4})(\d)/,"$1/$2");
+		v=v.replace(/^(\d{2})(\d)/,"$1/$2");
+		$(this).val(v);
+	}); 
+</script>
+
+</body>
+</html>

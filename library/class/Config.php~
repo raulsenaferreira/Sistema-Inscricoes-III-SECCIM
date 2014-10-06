@@ -1,0 +1,15 @@
+<?php
+class Config {
+ 
+ const UPLOAD 			= "/home/rodrigo/dev/xexeo/gallery/sets";
+ const IMGADMIN			= "../gallery/sets/";
+ const IMGSITE			= "gallery/sets/";
+ 
+ const DATABASE  		= 'flavia_xexeo';
+ const SERVER 			= 'localhost';
+ const USERROOT 		= 'root';
+ const PASSWORD 		= '123456';
+ 	
+}// end class Config
+
+?>

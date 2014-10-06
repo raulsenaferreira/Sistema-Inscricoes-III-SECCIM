@@ -1,0 +1,128 @@
+<?php
+class Agenda
+{
+ 
+	protected $id;
+	protected $titulo;
+	protected $palestrante;
+	protected $descricao;
+	protected $tipo;
+	protected $status;
+	protected $datahora;
+	
+	const ATIVADO = 1;
+	const DESATIVADO = 0;
+	
+	public function __construct($id=NULL) 
+	{
+		if($id!=NULL){
+			$this->carregarPorId($id);
+		}	
+	}
+	
+	#-------------------------------------#
+	# GET
+	#-------------------------------------#
+	
+	public function getId(){
+		return $this->id;
+	}
+	
+	public function getTitulo(){
+		return $this->titulo;
+	}
+	
+	public function getPalestrante(){
+		return $this->palestrante;
+	}
+	
+	public function getDescricao(){
+		return $this->descricao;
+	}
+	
+	public function getStatus(){
+		return $this->status;
+	}
+	
+	public function getTipo(){
+		return $this->tipo;
+	}
+	
+	public function getDatahora(){
+		return $this->datahora;
+	}
+	
+	public static function getAgendas(array $paginate){
+		$dao = Dao::factory(__CLASS__);
+		return $dao->getAgendas($paginate);
+	}
+	
+	public static function getLastId(){
+		$dao = Dao::factory(__CLASS__);
+		return $dao->getLastId();
+	}
+	
+	#-------------------------------------#
+	# METHODS
+	#-------------------------------------#
+	
+	public function cadastrar($dados) 
+	{
+		$dao = Dao::factory(__CLASS__);
+		if($dao->cadastrar($dados)){
+			return true;
+		}
+		return false;
+	}
+	
+	public function editar($dados) 
+	{
+		$dao = Dao::factory(__CLASS__);
+		if($dao->editar($dados,$this->id)){
+			return true;
+		}
+		return false;
+	}
+	
+	public function deletar() 
+	{
+		$dao = Dao::factory(__CLASS__);
+		if($dao->deletar($this->id)){
+			return true;
+		}
+		return false;
+	}
+	
+	public function carregarPorId($id) 
+	{
+		$dao = Dao::factory(__CLASS__);
+		$array = $dao->carregarPorId($id);
+		if($array){
+	 
+			$this->id  		= $array['id'];  		
+			$this->titulo 		= $array['titulo'];
+			$this->palestrante	= $array['palestrante']; 
+			$this->descricao 	= $array['descricao'];	
+			$this->tipo 		= $array['tipo'];
+			$this->status 		= $array['status'];
+			$this->datahora 	= $array['datahora']; 	
+		 
+			return true;
+		}
+		return false;
+	}
+	
+	public static function makeObjects($vetor){
+	
+		if(is_array($vetor)){
+			foreach($vetor['registros'] as $v){
+				$object = new self($v[0]);
+				$objectArray[] = $object;
+			}
+		}
+		return $objectArray;
+	}
+ 	  	
+}// end class
+
+?>

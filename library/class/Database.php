@@ -1,0 +1,44 @@
+<?php
+class Database {
+ 
+	protected $database 		= Config::DATABASE;
+	protected $server 		= Config::SERVER;
+	protected $user			= Config::USERROOT;
+	protected $password		= Config::PASSWORD;
+	
+	public function __construct($database = NULL) 
+	{
+	 
+		if($database != NULL){
+			$this->database = $database;
+		}
+		
+		$server 	= $this->server;
+		$user 		= $this->user;
+		$password 	= $this->password;
+	 
+		$this->id = mysql_connect($server,$user,$password);
+		if($this->id){
+			mysql_select_db($this->database,$this->id);
+		}
+	}
+	
+	public function execute($sql){
+		return mysql_query($sql,$this->id);
+	}
+	
+	public function lastId(){
+		return mysql_insert_id();
+	}
+	
+	public function fetch_assoc($value){
+		return mysql_fetch_assoc($value);
+	}
+	
+	public function fetch_row($value){
+		return mysql_fetch_row($value);
+	}
+
+}
+
+?>

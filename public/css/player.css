@@ -1,0 +1,94 @@
+@charset "utf-8";
+
+* {
+	font-family:"trebuchet ms", arial, helvetica, sans-serif;
+}
+
+body { 
+	margin:0px; 
+	width:890px; 
+	height:750px;
+}
+
+.box_conteudo {
+	width:540px; 
+	height:225px; 
+	position:absolute; 
+	left:50%; 
+	margin-left:-600px;   
+	top:50%; 
+}
+
+.campo_nome {
+	width:530px; 
+	height:135px;
+}
+
+.campo_telefone {
+	width:530px; 
+	height:47px; 
+	text-align:right;
+}
+
+.campo_botao {
+	width:530px; 
+	height:33px; 
+	text-align:right;
+}
+
+#player-interface {
+	width:880px;
+	margin:0 auto;
+	text-align:right;
+}
+
+#player-interface ul {
+	clear:both;
+	list-style-type:none;
+	margin:5px 0 0 0;
+	padding:0;
+}
+
+#player-interface ul li {
+	float:right;
+	white-space:nowrap;
+	font-weight:bolder;
+	font-size:10pt;
+	text-transform:uppercase;
+	margin-left:10px;
+}
+
+#player-interface ul li img {
+	margin-top:4px;
+}
+
+#music-icon {
+	width:9px;
+}
+
+#loading {
+	width:100px;
+}
+
+/*#menu-icon, #stop, #play-pause, #volume, #loading, .volume-bar, .duration, .current-time, .title-bar {
+	margin:4px 5px;
+}*/
+
+.seek-bar {
+	background:black;
+}
+
+.play-bar {
+	height:18px;
+	background:#651248;
+}
+
+.current-time, .duration {
+	font-style:italic;
+	color:#cdcdcd;
+}
+
+.title-bar {
+	color:white;
+}
+

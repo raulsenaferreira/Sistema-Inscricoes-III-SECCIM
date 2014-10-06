@@ -1,0 +1,128 @@
+<?php
+class Atividade
+{
+ 
+	protected $id;
+	protected $titulo;
+	protected $subtitulo;
+	protected $descricao;
+	protected $tipo;
+	protected $status;
+	protected $datahora;
+	
+	const ATIVADO = 1;
+	const DESATIVADO = 0;
+	
+	public function __construct($id=NULL) 
+	{
+		if($id!=NULL){
+			$this->carregarPorId($id);
+		}	
+	}
+	
+	#-------------------------------------#
+	# GET
+	#-------------------------------------#
+	
+	public function getId(){
+		return $this->id;
+	}
+	
+	public function getTitulo(){
+		return $this->titulo;
+	}
+	
+	public function getSubTitulo(){
+		return $this->subtitulo;
+	}
+	
+	public function getDescricatipo
+		return $this->descricao;
+	}
+	
+	public function getStatus(){
+		return $this->status;
+	}
+	
+	public function getTipo(){
+		return $this->tipo;
+	}
+	
+	public function getDatahora(){
+		return $this->datahora;
+	}
+	
+	public static function getAtividades(array $paginate){
+		$dao = new AtividadeDao();
+		return $dao->getAtividades($paginate);
+	}
+	
+	public static function getLastId(){
+		$dao = new AtividadeDao();
+		return $dao->getLastId();
+	}
+	
+	#-------------------------------------#
+	# METHODS
+	#-------------------------------------#
+	
+	public function cadastrar($dados) 
+	{
+		$dao = new AtividadeDao();
+		if($dao->cadastrar($dados)){
+			return true;
+		}
+		return false;
+	}
+	
+	public function editar($dados) 
+	{
+		$dao = new AtividadeDao();
+		if($dao->editar($dados,$this->id)){
+			return true;
+		}
+		return false;
+	}
+	
+	public function deletar() 
+	{
+		$dao = new AtividadeDao();
+		if($dao->deletar($this->id)){
+			return true;
+		}
+		return false;
+	}
+	
+	public function carregarPorId($id) 
+	{
+		$dao = new ProdutoDao();
+		$array = $dao->carregarPorId($id);
+		if($array){
+	 
+			$this->id  		= $array['id'];  		
+			$this->titulo 		= $array['titulo'];
+			$this->subtitulo	= $array['subtitulo']; 
+			$this->descricao 	= $array['descricao'];	
+			$this->tipo 		= $array['tipo'];
+			$this->status 		= $array['status'];
+			$this->datahora 	= $array['datahora']; 	
+		 
+			return true;
+		}
+		return false;
+	}
+	
+	public static function makeObjects($vetor){
+	
+		if(is_array($vetor)){
+			foreach($vetor as $v){
+				$object = new self($v[0]);
+				$objectArray[] = $object;
+			}
+		}
+		return $objectArray;
+	}
+ 	  	
+}// end class
+
+?>
